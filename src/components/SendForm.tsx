@@ -8,10 +8,10 @@ import {
   Paper,
   makeStyles,
 } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
 import { BigNumber } from "ethers";
 import { useForm, Controller } from "react-hook-form";
 import NumberField from "components/NumberField";
+import Alert from "components/Alert";
 import useWeb3React from "hooks/useWeb3React";
 
 const useStyles = makeStyles({
@@ -40,11 +40,8 @@ export default function SendForm() {
   const {
     handleSubmit,
     formState: { errors, isValid, isDirty },
-    watch,
     control,
   } = useForm<FormData>({ mode: "onBlur" });
-
-  console.log(isValid, isDirty, errors, watch());
 
   const [error, setError] = useState<Error | undefined>();
 
@@ -60,12 +57,6 @@ export default function SendForm() {
         to: address,
         nonce: Math.random() * 10e15,
         value: amount,
-        // gasLimit,
-        // gasPrice
-        // data,
-        // chainId,
-        // type,
-        // accessList,
       })
       .then(console.log)
       .catch(setError);

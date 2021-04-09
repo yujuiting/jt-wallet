@@ -5,13 +5,13 @@ import {
   Paper,
   makeStyles,
 } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
 import useWeb3React from "hooks/useWeb3React";
 import ConnectButton from "components/ConnectButton";
 import DisconnectButton from "components/DisconnectButton";
 import Address from "components/Address";
 import Balance from "components/Balance";
 import SendForm from "components/SendForm";
+import Alert from "components/Alert";
 
 const useStyles = makeStyles({
   container: {
