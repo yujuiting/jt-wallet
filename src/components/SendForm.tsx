@@ -39,7 +39,7 @@ export default function SendForm() {
 
   const {
     handleSubmit,
-    formState: { errors, isValid, isDirty },
+    formState: { isValid, isDirty },
     control,
   } = useForm<FormData>({ mode: "onBlur" });
 
