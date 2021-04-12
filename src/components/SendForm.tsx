@@ -6,6 +6,7 @@ import {
   FormHelperText,
   Grid,
   Paper,
+  Link,
   makeStyles,
 } from "@material-ui/core";
 import { BigNumber, ethers } from "ethers";
@@ -41,11 +42,20 @@ export default function SendForm() {
     handleSubmit,
     formState: { isValid, isDirty },
     control,
+    reset,
   } = useForm<FormData>({ mode: "onBlur" });
+
+  const [
+    transaction,
+    setTransaction,
+  ] = useState<ethers.providers.TransactionResponse>();
 
   const [error, setError] = useState<Error | undefined>();
 
-  useEffect(() => console.log(error), [error]);
+  // reset after transacted
+  useEffect(() => {
+    reset();
+  }, [transaction, reset]);
 
   const onSubmut = handleSubmit(({ address, amount }) => {
     if (!library || !account) return;
@@ -56,7 +66,7 @@ export default function SendForm() {
         to: address,
         value: ethers.utils.parseEther(amount),
       })
-      .then(console.log)
+      .then(setTransaction)
       .catch(setError);
   });
 
@@ -118,6 +128,17 @@ export default function SendForm() {
       </Paper>
       <Snackbar open={!!error} onClose={() => setError(undefined)}>
         <Alert severity="error">{error?.message}</Alert>
+      </Snackbar>
+      <Snackbar open={!!transaction} onClose={() => setTransaction(undefined)}>
+        <Alert>
+          Transaction:
+          <Link
+            href={`https://ropsten.etherscan.io/tx/${transaction?.hash}`}
+            target="_blank"
+          >
+            {transaction?.hash}
+          </Link>
+        </Alert>
       </Snackbar>
     </>
   );
