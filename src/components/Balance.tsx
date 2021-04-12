@@ -1,4 +1,4 @@
-import { BigNumber } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { Typography, TypographyProps } from "@material-ui/core";
 import useWeb3React from "hooks/useWeb3React";
@@ -13,5 +13,9 @@ export default function Balance(props: TypographyProps) {
     library.getBalance(account).then(setBalance);
   }, [library, account]);
 
-  return <Typography {...props}>Balance: {balance.toString()}</Typography>;
+  return (
+    <Typography {...props}>
+      Balance: {ethers.utils.formatEther(balance)}
+    </Typography>
+  );
 }

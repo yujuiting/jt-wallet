@@ -8,7 +8,7 @@ import {
   Paper,
   makeStyles,
 } from "@material-ui/core";
-import { BigNumber } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { useForm, Controller } from "react-hook-form";
 import NumberField from "components/NumberField";
 import Alert from "components/Alert";
@@ -53,10 +53,8 @@ export default function SendForm() {
     library
       .getSigner()
       .sendTransaction({
-        from: account,
         to: address,
-        nonce: Math.random() * 10e15,
-        value: amount,
+        value: ethers.utils.parseEther(amount),
       })
       .then(console.log)
       .catch(setError);
@@ -136,5 +134,9 @@ function GasPrice() {
     library.getGasPrice().then(setGasPrice);
   }, [library]);
 
-  return <FormHelperText>Gas Price: {gasPrice.toString()}</FormHelperText>;
+  return (
+    <FormHelperText>
+      Gas Price: {ethers.utils.formatEther(gasPrice)}
+    </FormHelperText>
+  );
 }
