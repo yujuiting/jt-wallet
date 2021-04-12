@@ -1,10 +1,4 @@
-import {
-  Grid,
-  Container,
-  Snackbar,
-  Paper,
-  makeStyles,
-} from "@material-ui/core";
+import { Grid, Snackbar, Paper, makeStyles } from "@material-ui/core";
 import useWeb3React from "hooks/useWeb3React";
 import ConnectButton from "components/ConnectButton";
 import DisconnectButton from "components/DisconnectButton";
@@ -16,9 +10,6 @@ import Alert from "components/Alert";
 const useStyles = makeStyles({
   container: {
     height: "100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
   },
   paper: {
     padding: "1rem 1.4rem",
@@ -39,14 +30,20 @@ export default function Index() {
     );
   }
 
-  function renderAccount() {
+  function render() {
     return (
-      <Grid item xs={12}>
-        <Paper className={styles.paper}>
-          <Address />
-          <Balance />
-        </Paper>
-      </Grid>
+      <>
+        <Grid item xs={12}>
+          <Paper className={styles.paper}>
+            <Address />
+            <Balance />
+          </Paper>
+        </Grid>
+
+        <Grid item xs={12}>
+          <SendForm />
+        </Grid>
+      </>
     );
   }
 
@@ -59,15 +56,17 @@ export default function Index() {
   }
 
   return (
-    <Container maxWidth="sm" className={styles.container}>
-      <Grid container justify="center" alignItems="center">
+    <Grid
+      className={styles.container}
+      container
+      justify="center"
+      alignItems="center"
+    >
+      <Grid item xs={12} sm={10} md={8} lg={6} xl={4}>
         {renderConnectButton()}
-        {active && renderAccount()}
-        <Grid item xs={12}>
-          {active && <SendForm />}
-        </Grid>
+        {active && render()}
       </Grid>
       {renderError()}
-    </Container>
+    </Grid>
   );
 }
